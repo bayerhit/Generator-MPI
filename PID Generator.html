@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PapanCeria - Generator Prompt Media Papan Interaktif</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti for Celebration Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts: Fredoka & Quicksand for playful child-friendly typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              yellow: '#FFDE59',
+              orange: '#FF914D',
+              pink: '#FF66C4',
+              purple: '#8C52FF',
+              blue: '#5CE1E6',
+              green: '#7ED957',
+              navy: '#1E293B',
+              bgLight: '#FFFDF7'
+            }
+          },
+          boxShadow: {
+            'bubbly': '0 8px 0px 0px rgba(0, 0, 0, 0.15)',
+            'bubbly-active': '0 2px 0px 0px rgba(0, 0, 0, 0.15)',
+            'card-pop': '0 10px 25px -5px rgba(140, 82, 255, 0.15), 0 8px 10px -6px rgba(140, 82, 255, 0.1)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #F8FAFC;
+      background-image: radial-gradient(#CBD5E1 1.2px, transparent 1.2px), radial-gradient(#CBD5E1 1.2px, #F8FAFC 1.2px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+    }
+    .font-heading {
+      font-family: 'Fredoka', cursive;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .floating-bounce {
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-16">
+
+  <!-- Header & Navigation Bar -->
+  <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b-4 border-amber-300 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-gradient-to-tr from-amber-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-md transform hover:rotate-6 transition">
+          🎨
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-heading text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 bg-clip-text text-transparent">
+              PapanCeria AI Studio
+            </h1>
+            <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border border-amber-300">
+              Smart Board Edition
+            </span>
+          </div>
+          <p class="text-xs text-slate-500">Generator Prompt Media Ajar Interaktif & Ramah Anak (SD • SMP • SMA)</p>
+        </div>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-2">
+        <button onclick="applyPreset('sd_siklus_air')" class="text-xs bg-cyan-50 hover:bg-cyan-100 text-cyan-700 px-3 py-1.5 rounded-xl border border-cyan-200 transition font-bold flex items-center gap-1">
+          💧 Contoh: IPA SD
+        </button>
+        <button onclick="applyPreset('smp_tatasurya')" class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 px-3 py-1.5 rounded-xl border border-purple-200 transition font-bold flex items-center gap-1">
+          🪐 Contoh: Tata Surya SMP
+        </button>
+        <button onclick="applyPreset('sma_ekosistem')" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-xl border border-emerald-200 transition font-bold flex items-center gap-1">
+          🧬 Contoh: Biologi SMA
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
+    <div class="bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <!-- Decorative background elements -->
+      <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+      <div class="absolute right-12 bottom-0 text-7xl opacity-20 pointer-events-none select-none floating-bounce">
+        🚀✨🎈
+      </div>
+
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold text-amber-200 mb-2">
+          🌟 Untuk Guru, Kreator Konten, & Pengembang Media Ajar
+        </span>
+        <h2 class="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight">
+          Ciptakan Media Papan Layar Sentuh yang Memikat & Menyenangkan!
+        </h2>
+        <p class="mt-2 text-indigo-100 text-sm leading-relaxed">
+          Kombinasikan sentuhan visual kartun ceria, gamifikasi drag-and-drop, serta narasi bersahabat untuk menghasilkan prompt instruksional bagi AI (ChatGPT, Claude, v0, Midjourney, Canva, dsb).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Grid Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT COLUMN: Parameter Configuration (7 Cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-white rounded-3xl p-6 shadow-card-pop border-2 border-slate-100">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+            <div class="flex items-center gap-2">
+              <span class="p-2 bg-amber-100 rounded-xl text-lg">⚙️</span>
+              <h3 class="font-heading text-xl font-bold text-slate-800">Konfigurasi Media Belajar</h3>
+            </div>
+            <button onclick="resetForm()" class="text-xs text-slate-400 hover:text-rose-500 transition font-bold">
+              ↺ Reset Pilihan
+            </button>
+          </div>
+
+          <form id="generatorForm" class="space-y-6" onsubmit="event.preventDefault(); generateAllPrompts();">
+            
+            <!-- 1. Jenjang Pendidikan (Tingkat Sekolah) -->
+            <div>
+              <label class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                1. Jenjang Pendidikan Target 🎒
+              </label>
+              <div class="grid grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="jenjang" value="SD" class="peer sr-only" checked onchange="updateToneSuggestions()">
+                  <div class="p-3 text-center rounded-2xl border-2 border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 hover:bg-slate-50 transition">
+                    <span class="text-2xl block mb-1">🐣</span>
+                    <span class="font-heading font-bold text-sm block text-slate-800">SD / MI</span>
+                    <span class="text-[11px] text-slate-500 block leading-tight">Fase A-C (Umur 7-12)</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer">
+                  <input type="radio" name="jenjang" value="SMP" class="peer sr-only" onchange="updateToneSuggestions()">
+                  <div class="p-3 text-center rounded-2xl border-2 border-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 hover:bg-slate-50 transition">
+                    <span class="text-2xl block mb-1">🦊</span>
+                    <span class="font-heading font-bold text-sm block text-slate-800">SMP / MTs</span>
+                    <span class="text-[11px] text-slate-500 block leading-tight">Fase D (Umur 13-15)</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer">
+                  <input type="radio" name="jenjang" value="SMA" class="peer sr-only" onchange="updateToneSuggestions()">
+                  <div class="p-3 text-center rounded-2xl border-2 border-slate-200 peer-checked:border-teal-500 peer-checked:bg-teal-50 hover:bg-slate-50 transition">
+                    <span class="text-2xl block mb-1">🦁</span>
+                    <span class="font-heading font-bold text-sm block text-slate-800">SMA / SMK</span>
+                    <span class="text-[11px] text-slate-500 block leading-tight">Fase E-F (Umur 16-18)</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. Mata Pelajaran & Topik Materi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="mataPelajaran" class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                  2. Mata Pelajaran 📚
+                </label>
+                <select id="mataPelajaran" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition">
+                  <option value="IPA / Sains & Fenomena Alam">🔬 IPA / Sains & Alam</option>
+                  <option value="Matematika & Geometri Ceria">📐 Matematika Ceria</option>
+                  <option value="Bahasa Indonesia & Literasi Cerita">📖 Bahasa Indonesia & Cerita</option>
+                  <option value="Bahasa Inggris Interaktif (Fun English)">🌍 Bahasa Inggris (Fun English)</option>
+                  <option value="IPS, Peta Dunia & Kebudayaan">🗺️ IPS & Jelajah Budaya</option>
+                  <option value="Seni Rupa & Kreativitas Warna">🎨 Seni Rupa & Desain</option>
+                  <option value="Pendidikan Pancasila & Karakter Budi Pekerti">🤝 Karakter & Budi Pekerti</option>
+                  <option value="Koding & Robotika Dasar">💻 Koding Dasar Anak</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="topikMateri" class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                  3. Topik Spesifik 💡
+                </label>
+                <input type="text" id="topikMateri" value="Siklus Air dan Terjadinya Hujan" placeholder="Contoh: Tata Surya, Pecahan Pizza..." class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition" />
+              </div>
+            </div>
+
+            <!-- 4. Mode Interaksi Papan Layar Sentuh -->
+            <div>
+              <label class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                4. Jenis Interaksi Digital Touchscreen 👆
+              </label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Drag and Drop (Menarik Elemen ke Target yang Tepat)" class="peer sr-only" checked>
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    🧩 Geser & Tempel (Drag & Drop)
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Roda Putar Interaktif & Kuis Memilih Kartu Misteri" class="peer sr-only">
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    🎡 Roda Putar & Kartu Misteri
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Lab Virtual Mini dengan Slider Parameter dan Tombol Reaksi" class="peer sr-only">
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    🧪 Simulasi Eksperimen Mini
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Papan Hubungkan Titik Garis (Connect the Dots/Relasi)" class="peer sr-only">
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    〰️ Garis Penghubung Relasi
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Papan Tempel Stiker Digital Kolaboratif Kelas" class="peer sr-only">
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    🏷️ Papan Sticky Notes Bersama
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="tipeInteraksi" value="Petualangan Peta Bertahap (Quest Adventure Level)" class="peer sr-only">
+                  <div class="p-2.5 text-xs font-semibold rounded-xl border border-slate-200 peer-checked:border-pink-500 peer-checked:bg-pink-50 text-slate-700 text-center transition">
+                    🗺️ Petualangan Peta Level
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 5. Gaya Visual Seni Anak & Karakter Maskot -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="gayaVisual" class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                  5. Tema Gaya Visual 🎨
+                </label>
+                <select id="gayaVisual" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition">
+                  <option value="3D Claymation & Kartun Pastel Ceria (lembut, cerah, ramah anak)">🧸 3D Claymation Pastel Ceria</option>
+                  <option value="Doodle Vektor Warna-Warni Riang dengan Outline Tebal">✏️ Doodle Vektor Garis Ceria</option>
+                  <option value="Pixel Art Retro Game 16-bit Menggemaskan">👾 Retro Pixel Art Lucu</option>
+                  <option value="Buku Cerita Bergambar Cat Air (Watercolor Storybook)">🖌️ Cat Air Cerita Bergambar</option>
+                  <option value="Modern Flat Design Edukasi Berenergi Tinggi">⚡ Flat Design Modern Ceria</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="maskotKarakter" class="block font-heading text-sm font-bold text-slate-700 mb-2">
+                  6. Sahabat Maskot Pemandu 🐾
+                </label>
+                <select id="maskotKarakter" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 text-sm font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition">
+                  <option value="Si Kiko, Kucing Astronot yang selalu penasaran">🐱 Si Kiko (Kucing Cilik Penasaran)</option>
+                  <option value="Miko Si Robot Ramah yang suka bernyanyi 'Bip-Bop'">🤖 Miko (Robot Ramah Bersahabat)</option>
+                  <option value="Profesor Owl, Burung Hantu Bijak yang gemar memuji">🦉 Profesor Owl (Penyemangat Cilik)</option>
+                  <option value="Roro Si Rusa Cilik yang lincah dan berani mencoba">🦌 Roro (Rusa Cilik Ceria)</option>
+                  <option value="Karakter Detektif Sains Cilik dengan kaca pembesar">🔍 Detektif Sains Cilik</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 7. Fitur Gamifikasi & Umpan Balik Suara Ramah Anak -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label class="block font-heading text-sm font-bold text-slate-700">
+                  7. Modul Gamifikasi & Mekanika Bermain 🎮⭐
+                </label>
+                <span class="text-[11px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full border border-purple-200">
+                  Fitur Interaktif Ceria
+                </span>
+              </div>
+              <div class="grid grid-cols-2 gap-2.5 text-xs">
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="efekSuara" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Efek Suara Riang (Chime, Ding, Pop)</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="pujianPositif" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Pujian Suportif Tanpa Hukuman</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="animasiKonfeti" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Hujan Konfeti & Bintang Kejutan</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="streakCombo" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Skor Kombo & XP Bar Melaju (Streak)</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="petiMisteri" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Peti Harta Misteri / Hadiah Kartu</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="multiplayerCoop" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Mode Kolaborasi 2 Siswa (Dual-Touch)</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="timerSantai" onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Timer Visual Bersahabat (Balon Melayang)</span>
+                </label>
+                <label class="flex items-center space-x-2 bg-slate-50 hover:bg-purple-50 p-2.5 rounded-xl border border-slate-200 cursor-pointer transition">
+                  <input type="checkbox" id="modeAksesibilitas" checked onchange="generateAllPrompts()" class="rounded text-pink-500 focus:ring-pink-400">
+                  <span class="font-medium text-slate-700">Tombol Sentuh Ekstra Besar (64px+)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Tombol Generate Utama -->
+            <button type="button" onclick="generateAllPrompts(); triggerCelebrateEffect();" class="w-full py-4 bg-gradient-to-r from-amber-400 via-orange-500 to-pink-500 hover:from-amber-500 hover:to-pink-600 text-white font-heading text-lg font-bold rounded-2xl shadow-bubbly active:translate-y-1 active:shadow-bubbly-active transition transform flex items-center justify-center gap-2">
+              <span>✨ Buat Paket Prompt Papan Interaktif Sekarang!</span>
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Output Prompts & Simulator (5 Cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Live Whiteboard Mini Simulator Playground with Gamified Elements -->
+        <div class="bg-gradient-to-b from-slate-900 to-indigo-950 rounded-3xl p-5 text-white shadow-xl border-4 border-amber-300 relative">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-700 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-3 h-3 rounded-full bg-red-400"></span>
+              <span class="inline-block w-3 h-3 rounded-full bg-yellow-400"></span>
+              <span class="inline-block w-3 h-3 rounded-full bg-green-400"></span>
+              <span class="text-xs font-bold text-amber-300 ml-1 font-heading">Simulasi Arena Gamifikasi Sentuh</span>
+            </div>
+            <button onclick="resetSimulator()" class="text-[11px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded-md font-mono border border-slate-700 transition">
+              ↺ Reset Game
+            </button>
+          </div>
+
+          <!-- Gamified HUD: XP Bar, Stars, & Streak -->
+          <div class="bg-slate-800/90 rounded-2xl p-3 border border-indigo-700/60 mb-3">
+            <div class="flex items-center justify-between text-xs font-bold mb-1">
+              <div class="flex items-center gap-1.5">
+                <span id="starDisplay" class="text-amber-400 tracking-wider">☆☆☆</span>
+                <span class="text-indigo-200 text-[11px]" id="simXpText">0 / 300 XP</span>
+              </div>
+              <div id="comboBadge" class="bg-amber-400 text-slate-950 text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider hidden animate-bounce">
+                🔥 1x Kombo!
+              </div>
+            </div>
+            <!-- Progress Bar Tracker -->
+            <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden p-0.5 border border-slate-700">
+              <div id="simProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-pink-500 to-emerald-400 rounded-full transition-all duration-500 w-0"></div>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 mb-3" id="simInstruction">
+            🎯 Ketuk kepingan sains di bawah untuk menembakkan poin dan membuka Peti Hadiah Misteri!
+          </p>
+
+          <!-- Interactive Sandbox Area -->
+          <div class="bg-indigo-900/60 rounded-2xl p-4 border border-indigo-700/50 min-h-[160px] flex flex-col justify-between relative overflow-hidden">
+            <div id="simDropZone" class="border-2 border-dashed border-cyan-400/80 rounded-xl p-2.5 text-center bg-cyan-950/40 transition">
+              <p class="text-[11px] text-cyan-200 font-bold mb-1" id="dropTargetName">Wadah Penampung Konsep 🎯</p>
+              <div id="droppedItems" class="flex flex-wrap gap-1.5 justify-center min-h-[28px] items-center">
+                <span class="text-[10px] text-slate-400 italic">Ketuk kepingan misi di bawah</span>
+              </div>
+            </div>
+
+            <!-- Draggable/Clickable Tokens -->
+            <div class="mt-3 flex flex-wrap gap-2 justify-center" id="simTokens">
+              <button onclick="simulateAction(this, 'Uap Air Menguap (Evaporasi)')" class="px-2.5 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-xl text-xs shadow-md transform active:scale-90 hover:scale-105 transition flex items-center gap-1">
+                ☀️ Panas Matahari
+              </button>
+              <button onclick="simulateAction(this, 'Awan Memadat (Kondensasi)')" class="px-2.5 py-1.5 bg-sky-300 hover:bg-sky-200 text-slate-900 font-bold rounded-xl text-xs shadow-md transform active:scale-90 hover:scale-105 transition flex items-center gap-1">
+                ☁️ Titik Awan
+              </button>
+              <button onclick="simulateAction(this, 'Titik Air Jatuh (Presipitasi)')" class="px-2.5 py-1.5 bg-teal-400 hover:bg-teal-300 text-slate-900 font-bold rounded-xl text-xs shadow-md transform active:scale-90 hover:scale-105 transition flex items-center gap-1">
+                🌧️ Tetes Hujan
+              </button>
+            </div>
+
+            <!-- Interactive Reward Mystery Chest overlay -->
+            <div id="mysteryChestBox" class="mt-3 p-3 bg-gradient-to-r from-amber-500/20 to-pink-500/20 border-2 border-amber-400/50 rounded-xl text-center hidden transition">
+              <p class="text-xs font-bold text-amber-300 mb-1">🎁 Peti Harta Karun Terbuka!</p>
+              <button onclick="openMysteryReward()" id="btnOpenReward" class="px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg animate-pulse transform active:scale-95 transition">
+                🎉 Buka Lencana Spesial!
+              </button>
+              <div id="mysteryRewardDisplay" class="hidden mt-2 text-xs font-bold text-emerald-300">
+                🏅 Anda Memperoleh Lencana: "Ahli Penjelajah Sains Hebat!"
+              </div>
+            </div>
+          </div>
+
+          <!-- Mascot speech bubble in sandbox -->
+          <div class="mt-3 flex items-start gap-2 bg-white/10 rounded-xl p-2.5">
+            <span class="text-2xl" id="simMascotIcon">🐱</span>
+            <div>
+              <p class="text-[11px] font-bold text-amber-200" id="simMascotName">Si Kiko berkata:</p>
+              <p class="text-xs text-white" id="simMascotSpeech">"Ayo kumpulkan bintang dan naikkan poin XP kita bersama-sama!"</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Tabs & Generated Prompt Cards -->
+        <div class="bg-white rounded-3xl p-6 shadow-card-pop border-2 border-slate-100 flex flex-col h-[560px]">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <h4 class="font-heading font-bold text-slate-800 text-base flex items-center gap-2">
+              <span>📋 Hasil Prompt Siap Pakai</span>
+            </h4>
+            <div class="flex bg-slate-100 p-1 rounded-xl gap-1">
+              <button onclick="switchTab('appCode')" id="tabBtn-appCode" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-white shadow-sm text-indigo-700 transition">
+                Web/App Code
+              </button>
+              <button onclick="switchTab('visual')" id="tabBtn-visual" class="text-xs font-bold px-3 py-1.5 rounded-lg text-slate-600 hover:text-indigo-600 transition">
+                Desain Visual
+              </button>
+              <button onclick="switchTab('skenario')" id="tabBtn-skenario" class="text-xs font-bold px-3 py-1.5 rounded-lg text-slate-600 hover:text-indigo-600 transition">
+                Skenario Kelas
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab Content Display -->
+          <div class="flex-1 mt-4 relative overflow-hidden flex flex-col">
+            
+            <!-- Output 1: Interactive App / Code Prompt -->
+            <div id="content-appCode" class="flex-1 flex flex-col">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-slate-500">
+                  Untuk: ChatGPT, Claude, v0.dev, Cursor, atau HTML5 Dev
+                </span>
+                <button onclick="copyToClipboard('promptOutput-appCode')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-lg transition flex items-center gap-1">
+                  <span>📋 Salin Prompt</span>
+                </button>
+              </div>
+              <textarea id="promptOutput-appCode" readonly class="flex-1 w-full bg-slate-900 text-emerald-300 font-mono text-xs p-3.5 rounded-2xl resize-none focus:outline-none custom-scroll leading-relaxed border border-slate-800"></textarea>
+            </div>
+
+            <!-- Output 2: Visual Assets / Midjourney Prompt -->
+            <div id="content-visual" class="flex-1 flex flex-col hidden">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-slate-500">
+                  Untuk: Midjourney, DALL-E, Canva Magic Studio, Bing Image
+                </span>
+                <button onclick="copyToClipboard('promptOutput-visual')" class="text-xs font-bold text-pink-600 hover:text-pink-800 bg-pink-50 hover:bg-pink-100 px-3 py-1 rounded-lg transition flex items-center gap-1">
+                  <span>📋 Salin Prompt</span>
+                </button>
+              </div>
+              <textarea id="promptOutput-visual" readonly class="flex-1 w-full bg-slate-900 text-pink-300 font-mono text-xs p-3.5 rounded-2xl resize-none focus:outline-none custom-scroll leading-relaxed border border-slate-800"></textarea>
+            </div>
+
+            <!-- Output 3: Skenario Pedagogis Guru di Kelas -->
+            <div id="content-skenario" class="flex-1 flex flex-col hidden">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-slate-500">
+                  Untuk: Panduan Mengajar Guru & Aktivitas Interaktif Murid
+                </span>
+                <button onclick="copyToClipboard('promptOutput-skenario')" class="text-xs font-bold text-amber-600 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 px-3 py-1 rounded-lg transition flex items-center gap-1">
+                  <span>📋 Salin Prompt</span>
+                </button>
+              </div>
+              <textarea id="promptOutput-skenario" readonly class="flex-1 w-full bg-slate-900 text-amber-200 font-mono text-xs p-3.5 rounded-2xl resize-none focus:outline-none custom-scroll leading-relaxed border border-slate-800"></textarea>
+            </div>
+
+          </div>
+
+          <!-- Bottom Action Helper -->
+          <div class="pt-3 mt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span class="flex items-center gap-1">
+              💡 <span>Tip: Tempelkan prompt ke LLM favorit Anda untuk langsung menghasilkan aplikasi atau materi siap pakai!</span>
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Audio Synthesis & Interactive Scripts -->
+  <script>
+    // Audio Context Web API for playful sound effects
+    let audioCtx = null;
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.log('Audio not supported or permitted');
+      }
+    }
+
+    function soundSuccess() {
+      playTone(523.25, 'triangle', 0.1); // C5
+      setTimeout(() => playTone(659.25, 'triangle', 0.1), 100); // E5
+      setTimeout(() => playTone(783.99, 'triangle', 0.25), 200); // G5
+    }
+
+    function soundPop() {
+      playTone(400, 'sine', 0.08);
+    }
+
+    function soundFanfare() {
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 'triangle', 0.25), idx * 120);
+      });
+    }
+
+    // Gamified Mini-Simulator State
+    let droppedCount = 0;
+    let currentXp = 0;
+    let comboMultiplier = 1;
+
+    function simulateAction(btn, text) {
+      const dropZone = document.getElementById('droppedItems');
+      const comboBadge = document.getElementById('comboBadge');
+      const progressBar = document.getElementById('simProgressBar');
+      const xpText = document.getElementById('simXpText');
+      const starDisplay = document.getElementById('starDisplay');
+      
+      // Pitch increases per combo streak
+      playTone(400 + (droppedCount * 120), 'sine', 0.1);
+
+      if (droppedCount === 0) {
+        dropZone.innerHTML = '';
+      }
+
+      const item = document.createElement('span');
+      item.className = 'px-2 py-0.5 bg-cyan-400 text-slate-900 rounded-md font-bold text-[10px] animate-bounce';
+      item.textContent = '✨ ' + text;
+      dropZone.appendChild(item);
+
+      btn.classList.add('opacity-40', 'pointer-events-none');
+      droppedCount++;
+      comboMultiplier = droppedCount;
+      currentXp += 100;
+
+      // Update XP & Star Bar
+      progressBar.style.width = `${Math.min((currentXp / 300) * 100, 100)}%`;
+      xpText.textContent = `${currentXp} / 300 XP`;
+
+      if (droppedCount === 1) starDisplay.textContent = '★☆☆';
+      if (droppedCount === 2) starDisplay.textContent = '★★☆';
+      if (droppedCount >= 3) starDisplay.textContent = '★★★';
+
+      // Show combo badge
+      comboBadge.classList.remove('hidden');
+      comboBadge.textContent = `🔥 ${comboMultiplier}x Kombo Ceria!`;
+
+      if (droppedCount >= 3) {
+        soundFanfare();
+        triggerCelebrateEffect();
+        document.getElementById('simMascotSpeech').textContent = 'Horeee! Kombo 3x Sempurna! Kamu membuka Peti Harta Karun Belajar! 🌟';
+        document.getElementById('mysteryChestBox').classList.remove('hidden');
+      } else {
+        document.getElementById('simMascotSpeech').textContent = `Hebat! "${text}" tepat sasaran! +100 XP didapatkan! 🚀`;
+      }
+    }
+
+    function openMysteryReward() {
+      soundFanfare();
+      triggerCelebrateEffect();
+      document.getElementById('btnOpenReward').classList.add('hidden');
+      const rewardDisplay = document.getElementById('mysteryRewardDisplay');
+      rewardDisplay.classList.remove('hidden');
+      document.getElementById('simMascotSpeech').textContent = 'Selamat! Lencana Ahli Penjelajah Sains resmi jadi milikmu!';
+    }
+
+    function resetSimulator() {
+      soundPop();
+      droppedCount = 0;
+      currentXp = 0;
+      comboMultiplier = 1;
+      document.getElementById('droppedItems').innerHTML = '<span class="text-[10px] text-slate-400 italic">Ketuk kepingan misi di bawah</span>';
+      document.getElementById('simProgressBar').style.width = '0%';
+      document.getElementById('simXpText').textContent = '0 / 300 XP';
+      document.getElementById('starDisplay').textContent = '☆☆☆';
+      document.getElementById('comboBadge').classList.add('hidden');
+      document.getElementById('mysteryChestBox').classList.add('hidden');
+      document.getElementById('btnOpenReward').classList.remove('hidden');
+      document.getElementById('mysteryRewardDisplay').classList.add('hidden');
+      document.getElementById('simMascotSpeech').textContent = '"Ayo kumpulkan bintang dan naikkan poin XP kita bersama-sama!"';
+      
+      const buttons = document.querySelectorAll('#simTokens button');
+      buttons.forEach(b => b.classList.remove('opacity-40', 'pointer-events-none'));
+    }
+
+    function triggerCelebrateEffect() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 60,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    // Switch Result Tabs
+    function switchTab(tabId) {
+      soundPop();
+      const tabs = ['appCode', 'visual', 'skenario'];
+      tabs.forEach(t => {
+        const content = document.getElementById(`content-${t}`);
+        const btn = document.getElementById(`tabBtn-${t}`);
+        if (t === tabId) {
+          content.classList.remove('hidden');
+          btn.className = 'text-xs font-bold px-3 py-1.5 rounded-lg bg-white shadow-sm text-indigo-700 transition';
+        } else {
+          content.classList.add('hidden');
+          btn.className = 'text-xs font-bold px-3 py-1.5 rounded-lg text-slate-600 hover:text-indigo-600 transition';
+        }
+      });
+    }
+
+    // Copy prompt to clipboard
+    function copyToClipboard(elementId) {
+      soundSuccess();
+      const textArea = document.getElementById(elementId);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(textArea.value);
+        }
+      }
+      const notification = document.createElement('div');
+      notification.className = 'fixed bottom-6 right-6 bg-slate-900 text-amber-300 px-5 py-3 rounded-2xl shadow-2xl font-bold text-sm border-2 border-amber-400 flex items-center gap-2 z-50 animate-bounce';
+      notification.innerHTML = '<span>🎉 Prompt berhasil disalin! Siap ditempel ke AI favoritmu.</span>';
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 2600);
+    }
+
+    // Tone & Vocabulary adaptation per level
+    function updateToneSuggestions() {
+      const jenjang = document.querySelector('input[name="jenjang"]:checked').value;
+      const mascotSelect = document.getElementById('maskotKarakter');
+      const visualSelect = document.getElementById('gayaVisual');
+
+      if (jenjang === 'SD') {
+        mascotSelect.value = "Si Kiko, Kucing Astronot yang selalu penasaran";
+        visualSelect.value = "3D Claymation & Kartun Pastel Ceria (lembut, cerah, ramah anak)";
+      } else if (jenjang === 'SMP') {
+        mascotSelect.value = "Miko Si Robot Ramah yang suka bernyanyi 'Bip-Bop'";
+        visualSelect.value = "Doodle Vektor Warna-Warni Riang dengan Outline Tebal";
+      } else {
+        mascotSelect.value = "Karakter Detektif Sains Cilik dengan kaca pembesar";
+        visualSelect.value = "Modern Flat Design Edukasi Berenergi Tinggi";
+      }
+      generateAllPrompts();
+    }
+
+    // Generator Engine
+    function generateAllPrompts() {
+      const jenjang = document.querySelector('input[name="jenjang"]:checked').value;
+      const mapel = document.getElementById('mataPelajaran').value;
+      const topik = document.getElementById('topikMateri').value || 'Materi Belajar Interaktif';
+      const tipeInteraksi = document.querySelector('input[name="tipeInteraksi"]:checked').value;
+      const gayaVisual = document.getElementById('gayaVisual').value;
+      const maskot = document.getElementById('maskotKarakter').value;
+
+      // Gamification Checkbox states
+      const efekSuara = document.getElementById('efekSuara').checked ? 'Aktif (Sound effects synthesizer Web Audio API: Pop, Ting bertingkat nada sesuai streak, Fanfare ceria)' : 'Mute';
+      const pujianPositif = document.getElementById('pujianPositif').checked ? 'Pemberian apresiasi suportif ("Hebat!", "Hampir tepat, coba geser yang ini yuk!") tanpa game over atau penalti' : 'Standar';
+      const konfeti = document.getElementById('animasiKonfeti').checked ? 'Hujan konfeti partikel bintang saat level terselesaikan' : 'Tanpa konfeti';
+      const streakCombo = document.getElementById('streakCombo').checked ? 'Aktif (XP Progress Bar bergerak mulus, pengali kombo bertingkat seperti "2x Kombo Ceria!", "3x Fantastis!")' : 'Tanpa kombo streak';
+      const petiMisteri = document.getElementById('petiMisteri').checked ? 'Aktif (Peti misteri bergetar/membal yang dapat disentuh untuk membuka kartu fakta unik atau lencana gelar keahlian)' : 'Tanpa peti misteri';
+      const multiplayerCoop = document.getElementById('multiplayerCoop').checked ? 'Mode Dual-Touch / Kolaborasi Berdua (Layar membagi 2 slot kartu aksi agar dua siswa dapat berdiri berdampingan dan bekerja sama memecahkan misi)' : 'Single user touch';
+      const timerSantai = document.getElementById('timerSantai').checked ? 'Timer Santai Non-Stres (Animasi balon udara melayang perlahan, tidak menimbulkan kepanikan waktu habis)' : 'Tanpa timer';
+      const aksesibilitas = document.getElementById('modeAksesibilitas').checked ? 'Ukuran target sentuh minimal 64px x 64px, rounded corners empuk, toleransi sentuhan jari anak' : 'Standar touch';
+
+      // Level specific pedagogical guidance
+      let pedagogicalContext = '';
+      if (jenjang === 'SD') {
+        pedagogicalContext = `
+- FOKUS TINGKAT SD / MI:
+  * Kosakata: Sederhana, ceria, bersahabat, hindari jargon rumit tanpa analogi konkret.
+  * Tampilan UI: Font membulat (Rounded sans seperti Fredoka / Quicksand), tombol ekstra besar, warna hangat ceria (kuning pastel, langit biru, mint segar).
+  * Prinsip Gamifikasi: Mengedepankan eksplorasi sensorik, kejutan visual stiker lucu, dan penghargaan bintang instan.`;
+      } else if (jenjang === 'SMP') {
+        pedagogicalContext = `
+- FOKUS TINGKAT SMP / MTs:
+  * Kosakata: Eksploratif, memancing rasa ingin tahu, memperkenalkan istilah ilmiah dasar dengan visual pendamping yang asyik.
+  * Tampilan UI: Visual dinamis, semi-game quest, layout terstruktur rapi namun tetap berjiwa muda dan tidak kaku.
+  * Prinsip Gamifikasi: Sistem lencana bertingkat, tantangan teka-teki logika, dan kompetisi sehat antar kelompok.`;
+      } else {
+        pedagogicalContext = `
+- FOKUS TINGKAT SMA / SMK:
+  * Kosakata: Presisi, analitis, aplikatif dengan skenario kehidupan nyata atau simulasi mini.
+  * Tampilan UI: Infografis interaktif modern, dashboard eksplorasi parameter, estetika sleek tapi tetap segar & playful.
+  * Prinsip Gamifikasi: Decision-making matrix, skor efisiensi simulasi, dan penyelesaian studi kasus interaktif.`;
+      }
+
+      // 1. PROMPT APLIKASI WEB INTERAKTIF / CODING (SINGLE-FILE HTML)
+      const promptAppCode = `Bertindaklah sebagai Senior EdTech Frontend Developer & Gamification Specialist untuk Media Pembelajaran Papan Interaktif (Digital Smart Board).
+
+Tugas Anda: Buatlah kode lengkap aplikasi web media belajar papan interaktif berbasis SATU BERKAS HTML (Single-file HTML berisi Tailwind CSS + Vanilla JavaScript modern + Web Audio API).
+
+[IDENTITAS MEDIA AJAR]
+- Jenjang Target: ${jenjang}
+- Mata Pelajaran: ${mapel}
+- Topik Utama: "${topik}"
+- Mekanisme Interaksi: ${tipeInteraksi}
+- Gaya Visual: ${gayaVisual}
+- Pemandu / Maskot: ${maskot}
+${pedagogicalContext}
+
+[ARSITEKTUR GAMIFIKASI & INTERAKSI SMART BOARD]
+1. Touch-First Optimization:
+   - Target area klik/sentuh minimum 64px x 64px agar ramah jari tangan anak di papan layar sentuh.
+   - Aksesibilitas: ${aksesibilitas}.
+   - ${multiplayerCoop}.
+2. Sistem Gamifikasi Terintegrasi:
+   - Progres & XP: ${streakCombo}.
+   - Reward & Mystery Box: ${petiMisteri}.
+   - Manajemen Waktu: ${timerSantai}.
+   - Efek Audio Terprogram: ${efekSuara}.
+   - Umpan Balik Positif: ${pujianPositif}.
+   - Selebrasi Visual: ${konfeti}.
+3. Tampilan Antarmuka (HUD):
+   - Atas: Banner judul topik, Bar XP animasi gradien, Bintang Skor (★☆☆), dan badge streak pengali kombo.
+   - Tengah: Area panggung interaktif (${tipeInteraksi}) berukuran leluasa dengan elemen kontras dan jelas.
+   - Samping/Bawah: Balon percakapan maskot ${maskot} yang dinamis merespons sentuhan siswa dengan dorongan semangat.
+4. Alur Pembelajaran (3 Babak Gamifikasi):
+   - Babak 1 (Pengenalan): Maskot menyapa kelas dan memberikan misi penjelajahan.
+   - Babak 2 (Aksi Sentuh Interaktif): Siswa bergantian maju menyentuh, menggeser kepingan, atau bereksperimen.
+   - Babak 3 (Selebrasi & Penyerahan Gelar): Tampilan piala emas/lencana keahlian beserta ringkasan konsep belajar ceria.
+
+Hasil akhir harus berupa satu file HTML mandiri yang siap dibuka langsung di browser papan sentuh tanpa instalasi tambahan.`;
+
+      // 2. PROMPT DESAIN VISUAL / MIDJOURNEY / CANVA
+      const promptVisual = `Act as an expert Children's Educational Game & UI Asset Illustrator. Generate a comprehensive visual asset design prompt for a gamified interactive whiteboard learning media.
+
+Project Details:
+- Target Age / Level: Students of ${jenjang}
+- Subject: ${mapel}
+- Core Topic: ${topik}
+- Visual Art Style: ${gayaVisual}
+- Mascot Character: ${maskot}
+
+Prompt for Image Generation (Midjourney / DALL-E / Canva Magic Studio):
+"Delightful educational game UI asset pack and 16:9 interactive whiteboard background for ${topik}. Art style: ${gayaVisual}, cheerful friendly pastel colors with vibrant accents, clean smooth outlines, cute expressive mascot ${maskot} wearing a little explorer gear, smiling warmly. Includes tactile interactive game UI components: glowing XP progress bar, shiny 3D cartoon gold stars, glowing mystery gift treasure chest with sparkles, touch tokens representing key concepts of ${mapel}, achievement badge of honor, clean organized layout, high resolution, child-friendly tactile aesthetic --ar 16:9 --v 6.0"
+
+Detailed Gamification Asset Inventory:
+1. Game HUD Kit: 3D cartoon stars (empty, bronze, silver, gold), XP progress bar container, and combo multiplier speech bubbles ("x2 Ceria!", "x3 Hebat!").
+2. Mystery Reward Chest: Closed chest with playful bouncing key, and open chest bursting with sparkling gems and congratulatory banners.
+3. Interactive Tokens (3-5 icons): Tactile, rounded chunky tokens representing ${topik} suitable for touch screens.
+4. Mascot Sprite Sheet:
+   - Idle / Welcoming: Smiling with open arms.
+   - Cheering: Jumping with joy, holding a star.
+   - Thinking / Guiding: Scratching chin gently with a cute lightbulb above head.`;
+
+      // 3. SKENARIO PEMBELAJARAN GURU DI KELAS
+      const promptSkenario = `RANCANGAN SKENARIO PEMBELAJARAN INTERAKTIF GAMIFIKASI DI KELAS
+Mata Pelajaran : ${mapel}
+Topik          : ${topik}
+Jenjang        : ${jenjang}
+Media          : Papan Interaktif Digital Layar Sentuh (Smart Board Gamifikasi)
+Maskot Pemandu : ${maskot}
+
+=======================================================
+A. TUJUAN PEMBELAJARAN BERBASIS GAMIFIKASI
+Siswa memahami konsep "${topik}" secara mendalam melalui pengalaman bermain terstruktur (*game-based learning*), memupuk kerja sama positif antar kelompok tanpa rasa takut salah.
+
+B. DINAMIKA KELAS & MEKANISME GAMIFIKASI
+- Sistem Poin Bersama (Kelas Kolektif): Seluruh kelas bekerja sama mengumpulkan 300 XP untuk membuka "Peti Misteri Kelas".
+- Fitur Gamifikasi yang Diaktifkan:
+  * ${streakCombo}
+  * ${petiMisteri}
+  * ${multiplayerCoop}
+
+C. LANGKAH-LANGKAH AKTIVITAS PAPAN SENTUH:
+1. Pemicu Minat & Misi Rahasia (5 Menit):
+   - Guru mengaktifkan papan sentuh. Maskot ${maskot} menyapa kelas: "Halo sahabat juara! Peti misteri hari ini terkunci. Siapa yang berani membantu mengumpulkan 3 kepingan sains?"
+2. Tantangan Sentuh Kolaboratif (15-20 Menit):
+   - Guru memanggil perwakilan meja (bisa 2 anak sekaligus dalam mode kolaborasi) untuk maju ke layar.
+   - Siswa melakukan aksi: ${tipeInteraksi}.
+   - Setiap sentuhan tepat menaikkan nada melodi pop dan mengisi XP Bar kelas.
+   - Ketika kombo tercapai, seluruh kelas meneriakkan slogan penyemangat bersama!
+3. Membuka Peti Misteri & Refleksi Bersama (10 Menit):
+   - Setelah misi selesai, siswa yang maju mengetuk Peti Hadiah Misteri di layar untuk mengungkap lencana gelar dan fakta menarik.
+   - Guru merangkum pemahaman konsep berdasarkan visual yang telah disusun siswa.
+   - Tepuk tangan selebrasi kelas dan pemberian pujian suportif.
+
+D. STRATEGI INKLUSIF & BEBAS INTIMIDASI:
+- Tidak ada sistem "Game Over" ataupun pengurangan poin saat salah ketuk. Kesalahan disambut hangat oleh maskot sebagai petunjuk belajar baru.`;
+
+      // Set text to textareas
+      document.getElementById('promptOutput-appCode').value = promptAppCode.trim();
+      document.getElementById('promptOutput-visual').value = promptVisual.trim();
+      document.getElementById('promptOutput-skenario').value = promptSkenario.trim();
+
+      // Update sandbox text
+      document.getElementById('simMascotName').textContent = `${maskot.split(',')[0]} berkata:`;
+      document.getElementById('dropTargetName').textContent = `Target Sentuh: ${topik}`;
+    }
+
+    // Presets
+    function applyPreset(presetKey) {
+      soundPop();
+      if (presetKey === 'sd_siklus_air') {
+        document.querySelector('input[name="jenjang"][value="SD"]').checked = true;
+        document.getElementById('mataPelajaran').value = 'IPA / Sains & Fenomena Alam';
+        document.getElementById('topikMateri').value = 'Siklus Air & Terjadinya Hujan';
+        document.getElementById('gayaVisual').value = '3D Claymation & Kartun Pastel Ceria (lembut, cerah, ramah anak)';
+        document.getElementById('maskotKarakter').value = 'Si Kiko, Kucing Astronot yang selalu penasaran';
+      } else if (presetKey === 'smp_tatasurya') {
+        document.querySelector('input[name="jenjang"][value="SMP"]').checked = true;
+        document.getElementById('mataPelajaran').value = 'IPA / Sains & Fenomena Alam';
+        document.getElementById('topikMateri').value = 'Revolusi Planet & Sabuk Asteroid Tata Surya';
+        document.getElementById('gayaVisual').value = 'Doodle Vektor Warna-Warni Riang dengan Outline Tebal';
+        document.getElementById('maskotKarakter').value = "Miko Si Robot Ramah yang suka bernyanyi 'Bip-Bop'";
+      } else if (presetKey === 'sma_ekosistem') {
+        document.querySelector('input[name="jenjang"][value="SMA"]').checked = true;
+        document.getElementById('mataPelajaran').value = 'IPA / Sains & Fenomena Alam';
+        document.getElementById('topikMateri').value = 'Dinamika Jaring-Jaring Makanan & Aliran Energi';
+        document.getElementById('gayaVisual').value = 'Modern Flat Design Edukasi Berenergi Tinggi';
+        document.getElementById('maskotKarakter').value = 'Karakter Detektif Sains Cilik dengan kaca pembesar';
+      }
+      generateAllPrompts();
+      triggerCelebrateEffect();
+    }
+
+    function resetForm() {
+      soundPop();
+      document.querySelector('input[name="jenjang"][value="SD"]').checked = true;
+      document.getElementById('mataPelajaran').value = 'IPA / Sains & Fenomena Alam';
+      document.getElementById('topikMateri').value = 'Siklus Air dan Terjadinya Hujan';
+      generateAllPrompts();
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      generateAllPrompts();
+    });
+  </script>
+</body>
+</html>
